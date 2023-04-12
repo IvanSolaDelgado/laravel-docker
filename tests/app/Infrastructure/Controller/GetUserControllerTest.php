@@ -13,7 +13,8 @@ use Tests\TestCase;
 class GetUserControllerTest extends TestCase
 {
     private UserDataSource $userDataSource;
-    protected function setUp():void //En el Setup hacemos la inyeccion de dependencias y hacemos que cada vez que se llame a UserDataSource se instancie un Mock en vez de  el
+
+    protected function setUp(): void //En el Setup hacemos la inyeccion de dependencias y hacemos que cada vez que se llame a UserDataSource se instancie un Mock en vez de  el
     {
         parent::setUp();
         $this->userDataSource = Mockery::mock(UserDataSource::class);
@@ -21,8 +22,6 @@ class GetUserControllerTest extends TestCase
             return $this->userDataSource; //Inyeccion de dependencias
         });
     }
-
-
     /**
      * @test
      */
@@ -42,7 +41,7 @@ class GetUserControllerTest extends TestCase
 
     public function getsUser()
     {
-        $this->userDataSource->expects('findByEmail')->andReturn(new User('2','email2@email.com'));
+        $this->userDataSource->expects('findByEmail')->andReturn(new User('2', 'email2@email.com'));
         $response = $this->get('/api/user/email@email.com');
 
         $response->assertOk();

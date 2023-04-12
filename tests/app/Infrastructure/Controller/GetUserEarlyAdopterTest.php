@@ -13,7 +13,8 @@ use Tests\TestCase;
 class GetUserEarlyAdopterTest extends TestCase
 {
     private UserDataSource $userDataSource;
-    protected function setUp():void //En el Setup hacemos la inyeccion de dependencias y hacemos que cada vez que se llame a UserDataSource se instancie un Mock en vez de  el
+
+    protected function setUp(): void //En el Setup hacemos la inyeccion de dependencias y hacemos que cada vez que se llame a UserDataSource se instancie un Mock en vez de  el
     {
         parent::setUp();
         $this->userDataSource = Mockery::mock(UserDataSource::class);
@@ -21,8 +22,6 @@ class GetUserEarlyAdopterTest extends TestCase
             return $this->userDataSource; //Inyeccion de dependencias
         });
     }
-
-
     /**
      * @test
      */
@@ -42,11 +41,11 @@ class GetUserEarlyAdopterTest extends TestCase
 
     public function userIsEarlyAdopter()
     {
-        $this->userDataSource->expects('findByEmail')->andReturn(new User('2','email2@email.com'));
-        $response = $this->get('/api/user/email2@email.com');
+        $this->userDataSource->expects('findByEmail')->andReturn(new User('2', 'email2@email.com'));
+        $response = $this->get('/api/user/early-adopter/email2@email.com');
 
         $response->assertOk();
-        $response->assertExactJson(['id' => 2,'email' => 'email2@email.com','early adopter'=>'El usuario es early adopter']);
+        $response->assertExactJson(['early adopter' => 'El usuario es early adopter']);
     }
 
     /**
@@ -55,10 +54,10 @@ class GetUserEarlyAdopterTest extends TestCase
 
     public function userIsNotEarlyAdopter()
     {
-        $this->userDataSource->expects('findByEmail')->andReturn(new User('1002','email2@email.com'));
-        $response = $this->get('/api/user/email2@email.com');
+        $this->userDataSource->expects('findByEmail')->andReturn(new User('1002', 'email2@email.com'));
+        $response = $this->get('/api/user/early-adopter/email2@email.com');
 
         $response->assertOk();
-        $response->assertExactJson(['id' => 1002,'email' => 'email2@email.com','early adopter'=>'El usuario no es early adopter']);
+        $response->assertExactJson(['early adopter' => 'El usuario no es early adopter']);
     }
 }

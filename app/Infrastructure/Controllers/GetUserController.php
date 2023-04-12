@@ -12,9 +12,6 @@ class GetUserController extends BaseController
 {
     private UserDataSource $userDataSource;
 
-    /**
-     * @param UserDataSource $userDataSource
-     */
     public function __construct(UserDataSource $userDataSource)
     {
         $this->userDataSource = $userDataSource;
@@ -28,18 +25,11 @@ class GetUserController extends BaseController
                 'error' => 'usuario no encontrado',
             ], Response::HTTP_NOT_FOUND);
         }
-        if($user->getId() < 1000){
-            return response()->json([
-                'id' => $user->getId(),
-                'email' => $user->getEmail(),
-                'early adopter' => 'El usuario es early adopter',
-            ], Response::HTTP_OK);
-        }
 
         return response()->json([
             'id' => $user->getId(),
             'email' => $user->getEmail(),
-            'early adopter' => 'El usuario no es early adopter',
         ], Response::HTTP_OK);
+
     }
 }

@@ -7,8 +7,6 @@ use App\Domain\User;
 
 class FileUserDataSource implements UserDataSource
 {
-    //SetUP
-
     public function findByEmail(string $email): ?User
     {
         return new User(1, "email@email.com");

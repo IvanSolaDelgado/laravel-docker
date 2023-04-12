@@ -3,15 +3,12 @@
 namespace App\Infrastructure\Controllers;
 
 use App\Application\UserDataSource\UserDataSource;
-use App\Domain\User;
 use App\Infrastructure\Persistence\FileUserDataSource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
 
-use function PHPUnit\Framework\isEmpty;
-
-class GetUserListController extends BaseController
+class GetUserEarlyAdopterController extends BaseController
 {
     private UserDataSource $userDataSource;
 
@@ -20,18 +17,16 @@ class GetUserListController extends BaseController
         $this->userDataSource = $userDataSource;
     }
 
-    public function __invoke(): JsonResponse
+    public function __invoke(string $userEmail): JsonResponse
     {
-        $userList = $this->userDataSource->getAll();
-        if ($userList == null) {
+        $user = $this->userDataSource->findByEmail($userEmail);
+        if ($user->getId() < 1000) {
             return response()->json([
+                'early adopter' => 'El usuario es early adopter',
             ], Response::HTTP_OK);
         }
         return response()->json([
-            'id1' => $userList[0]->getId(),
-            'email1' => $userList[0]->getEmail(),
-            'id2' => $userList[1]->getId(),
-            'email2' => $userList[1]->getEmail(),
+            'early adopter' => 'El usuario no es early adopter',
         ], Response::HTTP_OK);
     }
 }
