@@ -29,6 +29,7 @@ class GetUserControllerTest extends TestCase
     public function errorIfGivenUserDoesNotExist()
     {
         $this->userDataSource->expects('findByEmail')->andReturn(null);
+
         $response = $this->get('/api/user/email@email.com');
 
         $response->assertNotFound();
@@ -42,6 +43,7 @@ class GetUserControllerTest extends TestCase
     public function getsUser()
     {
         $this->userDataSource->expects('findByEmail')->andReturn(new User('2', 'email2@email.com'));
+
         $response = $this->get('/api/user/email@email.com');
 
         $response->assertOk();

@@ -30,6 +30,5 @@ class GetUserController extends BaseController
             'id' => $user->getId(),
             'email' => $user->getEmail(),
         ], Response::HTTP_OK);
-
     }
 }

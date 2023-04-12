@@ -29,6 +29,7 @@ class GetUserEarlyAdopterTest extends TestCase
     public function errorIfGivenUserDoesNotExist()
     {
         $this->userDataSource->expects('findByEmail')->andReturn(null);
+
         $response = $this->get('/api/user/email@email.com');
 
         $response->assertNotFound();
@@ -42,6 +43,7 @@ class GetUserEarlyAdopterTest extends TestCase
     public function userIsEarlyAdopter()
     {
         $this->userDataSource->expects('findByEmail')->andReturn(new User('2', 'email2@email.com'));
+
         $response = $this->get('/api/user/early-adopter/email2@email.com');
 
         $response->assertOk();
@@ -55,6 +57,7 @@ class GetUserEarlyAdopterTest extends TestCase
     public function userIsNotEarlyAdopter()
     {
         $this->userDataSource->expects('findByEmail')->andReturn(new User('1002', 'email2@email.com'));
+
         $response = $this->get('/api/user/early-adopter/email2@email.com');
 
         $response->assertOk();

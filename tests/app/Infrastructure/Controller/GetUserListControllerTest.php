@@ -29,8 +29,8 @@ class GetUserListControllerTest extends TestCase
     public function responseStatus200IfNoUserList()
     {
         $this->userDataSource->expects('getAll')->andReturn([]);
-        $response = $this->get('/api/users');
 
+        $response = $this->get('/api/users');
 
         $response->assertExactJson([]);
     }
@@ -42,6 +42,7 @@ class GetUserListControllerTest extends TestCase
     public function getUserList()
     {
         $this->userDataSource->expects('getAll')->andReturn([new User('1', 'email@email.com'),new User('2', 'another_email@email.com')]);
+
         $response = $this->get('/api/users');
 
         $response->assertOk();
