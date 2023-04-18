@@ -4,17 +4,14 @@ namespace Tests\app\Infrastructure\Controller;
 
 use App\Application\UserDataSource\UserDataSource;
 use App\Domain\User;
-use App\Infrastructure\Persistence\FileUserDataSource;
-use Exception;
-use Illuminate\Http\Response;
 use Mockery;
 use Tests\TestCase;
 
-class GetUserEarlyAdopterTest extends TestCase
+class GetUserEarlyAdopterControllerTest extends TestCase
 {
     private UserDataSource $userDataSource;
 
-    protected function setUp(): void //En el Setup hacemos la inyeccion de dependencias y hacemos que cada vez que se llame a UserDataSource se instancie un Mock en vez de  el
+    protected function setUp(): void
     {
         parent::setUp();
         $this->userDataSource = Mockery::mock(UserDataSource::class);
@@ -25,10 +22,12 @@ class GetUserEarlyAdopterTest extends TestCase
     /**
      * @test
      */
-
     public function errorIfGivenUserDoesNotExist()
     {
-        $this->userDataSource->expects('findByEmail')->andReturn(null);
+        $this->userDataSource
+            ->expects('findByEmail')
+            ->with('email@email.com')
+            ->andReturn(null);
 
         $response = $this->get('/api/user/email@email.com');
 
@@ -39,10 +38,12 @@ class GetUserEarlyAdopterTest extends TestCase
     /**
      * @test
      */
-
     public function userIsEarlyAdopter()
     {
-        $this->userDataSource->expects('findByEmail')->andReturn(new User('2', 'email2@email.com'));
+        $this->userDataSource
+            ->expects('findByEmail')
+            ->with('email2@email.com')
+            ->andReturn(new User('2', 'email2@email.com'));
 
         $response = $this->get('/api/user/early-adopter/email2@email.com');
 
@@ -53,10 +54,12 @@ class GetUserEarlyAdopterTest extends TestCase
     /**
      * @test
      */
-
     public function userIsNotEarlyAdopter()
     {
-        $this->userDataSource->expects('findByEmail')->andReturn(new User('1002', 'email2@email.com'));
+        $this->userDataSource
+            ->expects('findByEmail')
+            ->with('email2@email.com')
+            ->andReturn(new User('1002', 'email2@email.com'));
 
         $response = $this->get('/api/user/early-adopter/email2@email.com');
 
