@@ -19,6 +19,7 @@ class GetUserEarlyAdopterControllerTest extends TestCase
             return $this->userDataSource; //Inyeccion de dependencias
         });
     }
+
     /**
      * @test
      */

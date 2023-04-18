@@ -2,28 +2,34 @@
 
 namespace App\Infrastructure\Controllers;
 
-use App\Application\UserDataSource\UserDataSource;
+use App\Application\Exceptions\UserNotFoundException;
+use App\Application\IsEarlyAdopterService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
 
 class GetUserEarlyAdopterController extends BaseController
 {
-    private UserDataSource $userDataSource;
+    private IsEarlyAdopterService $isEarlyAdopterService;
 
-    public function __construct(UserDataSource $userDataSource)
+    public function __construct(IsEarlyAdopterService $isEarlyAdopterService)
     {
-        $this->userDataSource = $userDataSource;
+        $this->isEarlyAdopterService = $isEarlyAdopterService;
     }
 
+    /**
+     * @throws UserNotFoundException
+     */
     public function __invoke(string $userEmail): JsonResponse
     {
-        $user = $this->userDataSource->findByEmail($userEmail);
-        if ($user->getId() < 1000) {
+        $isEarlyAdopter = $this->isEarlyAdopterService->execute($userEmail);
+
+        if ($isEarlyAdopter) {
             return response()->json([
                 'early adopter' => 'El usuario es early adopter',
             ], Response::HTTP_OK);
         }
+
         return response()->json([
             'early adopter' => 'El usuario no es early adopter',
         ], Response::HTTP_OK);
