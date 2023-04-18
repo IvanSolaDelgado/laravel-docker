@@ -4,9 +4,6 @@ namespace Tests\app\Infrastructure\Controller;
 
 use App\Application\UserDataSource\UserDataSource;
 use App\Domain\User;
-use App\Infrastructure\Persistence\FileUserDataSource;
-use Exception;
-use Illuminate\Http\Response;
 use Mockery;
 use Tests\TestCase;
 
@@ -14,7 +11,7 @@ class GetUserControllerTest extends TestCase
 {
     private UserDataSource $userDataSource;
 
-    protected function setUp(): void //En el Setup hacemos la inyeccion de dependencias y hacemos que cada vez que se llame a UserDataSource se instancie un Mock en vez de  el
+    protected function setUp(): void
     {
         parent::setUp();
         $this->userDataSource = Mockery::mock(UserDataSource::class);
@@ -25,10 +22,12 @@ class GetUserControllerTest extends TestCase
     /**
      * @test
      */
-
     public function errorIfGivenUserDoesNotExist()
     {
-        $this->userDataSource->expects('findByEmail')->andReturn(null);
+        $this->userDataSource
+            ->expects('findByEmail')
+            ->with('email@email.com')
+            ->andReturn(null);
 
         $response = $this->get('/api/user/email@email.com');
 
@@ -39,14 +38,16 @@ class GetUserControllerTest extends TestCase
     /**
      * @test
      */
-
-    public function getsUser()
+    public function getsUserByEmail()
     {
-        $this->userDataSource->expects('findByEmail')->andReturn(new User('2', 'email2@email.com'));
+        $this->userDataSource
+            ->expects('findByEmail')
+            ->with('email@email.com')
+            ->andReturn(new User('2', 'email@email.com'));
 
         $response = $this->get('/api/user/email@email.com');
 
         $response->assertOk();
-        $response->assertExactJson(['id' => 2,'email' => 'email2@email.com']);
+        $response->assertExactJson(['id' => 2,'email' => 'email@email.com']);
     }
 }

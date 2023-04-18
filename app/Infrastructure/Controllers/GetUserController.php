@@ -3,7 +3,6 @@
 namespace App\Infrastructure\Controllers;
 
 use App\Application\UserDataSource\UserDataSource;
-use App\Infrastructure\Persistence\FileUserDataSource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller as BaseController;
