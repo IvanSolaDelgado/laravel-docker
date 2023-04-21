@@ -60,7 +60,7 @@ class GetUserEarlyAdopterControllerTest extends TestCase
         $this->userDataSource
             ->expects('findByEmail')
             ->with('email2@email.com')
-            ->andReturn(new User('1002', 'email2@email.com'));
+            ->andReturn(new User('102', 'email2@email.com'));
 
         $response = $this->get('/api/user/early-adopter/email2@email.com');
 
