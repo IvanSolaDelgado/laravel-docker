@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Controllers;
 
+use App\Application\SpecialUserService;
 use App\Application\UserDataSource\UserDataSource;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
@@ -9,19 +10,19 @@ use Illuminate\Routing\Controller as BaseController;
 
 class GetSpecialUserController extends BaseController
 {
-    private UserDataSource $userDataSource;
-    private SpecialUserListResponseMapper $specialUserListResponseMapper;
+    private UserListResponseMapper $userListResponseMapper;
+    private SpecialUserService $specialUserService;
 
-    public function __construct(UserDataSource $userDataSource, SpecialUserListResponseMapper $specialUserListResponseMapper)
+    public function __construct(SpecialUserService $specialUserService, UserListResponseMapper $userListResponseMapper)
     {
-        $this->userDataSource = $userDataSource;
-        $this->specialUserListResponseMapper = $specialUserListResponseMapper;
+        $this->specialUserService = $specialUserService;
+        $this->userListResponseMapper = $userListResponseMapper;
     }
 
     public function __invoke(): JsonResponse
     {
-        $userList = $this->userDataSource->getAll();
+        $userList = $this->specialUserService->execute();
 
-        return response()->json($this->specialUserListResponseMapper->map($userList));
+        return response()->json($this->userListResponseMapper->map($userList));
     }
 }

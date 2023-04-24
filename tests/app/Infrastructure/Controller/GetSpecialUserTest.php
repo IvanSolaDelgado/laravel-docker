@@ -43,14 +43,19 @@ class GetSpecialUserTest extends TestCase
         $this->userDataSource
             ->expects('getAll')
             ->andReturn([
-                new User('2', 'another_email@email.com')
+                new User('1', 'email@email.com'),
+                new User('2', 'another_email@email.com'),
+                new User('5', 'another_email2@email.com'),
+                new User('25', 'arrozConPollo@email.com')
             ]);
 
         $response = $this->get('/api/special-users');
 
         $response->assertOk();
         $response->assertExactJson([
-                ['id' => 2, 'email' => 'another_email@email.com']
+                ['id' => 2, 'email' => 'another_email@email.com'],
+                ['id' => 5, 'email' => 'another_email2@email.com'],
+                ['id' => 25, 'email' => 'arrozConPollo@email.com']
             ]);
     }
 }
