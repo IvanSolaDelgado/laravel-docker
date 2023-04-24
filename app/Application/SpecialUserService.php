@@ -18,16 +18,16 @@ class SpecialUserService
     {
         $userList = $this->userDataSource->getAll();
         $specialUserList = [];
-        foreach($userList as $user){
-            if($this->isSpecialUser($user->getId())){
+        foreach ($userList as $user) {
+            if ($this->isSpecialUser($user->getId())) {
                 array_push($specialUserList, $user);
             }
         }
         return $specialUserList;
     }
 
-    private function isSpecialUser($id): bool
+    private function isSpecialUser($userId): bool
     {
-        return $id % 2 == 0 or $id % 5 == 0;
+        return $userId % 2 == 0 or $userId % 5 == 0;
     }
 }
