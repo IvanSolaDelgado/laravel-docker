@@ -12,7 +12,7 @@ grumphp:
       order: null
     phpmd:
       whitelist_patterns: [ ]
-      exclude: ['...runner/work/laravel-docker/laravel-docker/app/Console/Kernel.php']
+      exclude: []
       report_format: text
       ruleset: [ 'ruleset.xml' ]
       triggered_by: [ 'php' ]
@@ -29,5 +29,5 @@ grumphp:
       ignore_patterns: [ ]
       sniffs: [ ]
       triggered_by: [ php ]
-      exclude: [ ]
+      exclude: ['...runner/work/laravel-docker/laravel-docker/app/Console/Kernel.php' ]
       show_sniffs_error_path: true
