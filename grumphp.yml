@@ -29,5 +29,5 @@ grumphp:
       ignore_patterns: [ ]
       sniffs: [ ]
       triggered_by: [ php ]
-      exclude: ['...runner/work/laravel-docker/laravel-docker/app/Console/Kernel.php' ]
+      exclude: ["../app/Infrastructure/Kernel.php"]
       show_sniffs_error_path: true
