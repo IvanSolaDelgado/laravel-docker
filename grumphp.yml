@@ -29,5 +29,5 @@ grumphp:
       ignore_patterns: [ ]
       sniffs: [ ]
       triggered_by: [ php ]
-      exclude: ["../app/Infrastructure/Kernel.php"]
+      exclude: []
       show_sniffs_error_path: true
